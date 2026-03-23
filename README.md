@@ -3,3 +3,7 @@
 ## Instructions for running the different tasks
 
 [Instructions here]
+
+## Pins
+
+[what pins are connected to what component here]
