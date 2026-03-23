@@ -1,3 +1,3 @@
 # main.py -- put your code here!
 
-execfile("test.py")
+execfile("/Task1/task1.py")
