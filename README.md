@@ -7,3 +7,7 @@
 ## Pins
 
 [what pins are connected to what component here]
+
+## Test
+
+[Some Test]
