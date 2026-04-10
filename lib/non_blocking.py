@@ -1,4 +1,4 @@
-from machine import Pin, PWM, ADC
+from machine import Pin, PWM, ADC, I2C
 from utime import sleep, ticks_ms, ticks_diff, time
 
 print('-------------')

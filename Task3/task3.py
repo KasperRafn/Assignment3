@@ -11,8 +11,8 @@ print('-------------')
 
 # LEDS
 green_led = Pin(15, Pin.OUT)
-yellow_led = Pin(14, Pin.OUT)
-red_led = Pin(12, Pin.OUT)
+yellow_led = Pin(12, Pin.OUT)
+red_led = Pin(33, Pin.OUT)
 
 # Sensor
 def change_led_color(new_sensor_value):
@@ -29,7 +29,7 @@ def change_led_color(new_sensor_value):
         yellow_led.off()
         red_led.on()
 
-sensor_pin = 13
+sensor_pin = 32
 temp_sensor = nb.adc(20, sensor_pin, [change_led_color])
 
 while True:

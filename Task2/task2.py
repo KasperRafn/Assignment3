@@ -1,13 +1,17 @@
 from machine import Pin
 import time
 
+print('-------------')
+print('----Task2----')
+print('-------------')
+
 # LED pins
-green = Pin(14, Pin.OUT)
-yellow = Pin(27, Pin.OUT)
-red = Pin(26, Pin.OUT)
+green = Pin(15, Pin.OUT)
+yellow = Pin(12, Pin.OUT)
+red = Pin(33, Pin.OUT)
 
 # Button pin
-button = Pin(33, Pin.IN)
+button = Pin(27, Pin.IN, Pin.PULL_DOWN)
 
 # LED states list
 leds = [green, yellow, red]
@@ -30,6 +34,8 @@ while True:
     if current_button_state == 1 and last_button_state == 0:
         current_index = (current_index + 1) % 3
         update_leds(current_index)
+
+        print('button pressed')
 
         # debounce delay
         time.sleep(0.2)
