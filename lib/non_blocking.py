@@ -18,27 +18,6 @@ class tick_element():
             self.last_time = ticks_ms()
 
             self.on_tick()
-
-class blinking_led(tick_element):
-    def __init__(self, freq, pin):
-        super().__init__(freq)
-
-        self.led = Pin(pin, Pin.OUT)
-        self.led_on = False
-        self.should_blink = True
-
-    def on_tick(self):
-        if self.should_blink:
-            if self.led_on:
-                self.led.off()
-            else:
-                self.led.on()
-
-            self.led_on = not self.led_on
-
-    def togle_blink(self):
-        self.should_blink = not self.should_blink
-
 class pwm_led(tick_element):
     def __init__(self, freq, pin):
         super().__init__(freq)
@@ -102,44 +81,3 @@ class adc(tick_element):
                 callback(new_val)
 
         self.val = new_val
-
-class data_gatherer():
-    def __init__(self, file_name):
-
-        self.file_name = file_name
-        self.is_active = True
-
-        self.data = ''
-        self.gather_start_time = 0
-
-    def write_to_file(self, text):
-        f_out = open('data.txt', 'w')
-
-        f_out.write(text)
-
-        f_out.close()
-
-    def add_data_point(self, data):
-        self.data += data + '\n'
-
-    def add_adc_data(self, val):
-        data_point = str((time() - self.gather_start_time)) + ' - ' + str(val)
-        self.add_data_point(data_point)
-
-    def toggle_capture_data(self):
-        self.is_active = not self.is_active
-
-        if self.is_active:
-            print('stopping to gather data')
-
-            self.write_to_file(self.data)
-
-            print('data gathered:')
-            with open(self.file_name) as f:
-                data_text = f.read()
-                print(data_text)
-
-        else:
-            print('starting to gather data')
-
-            self.gather_start_time = time()

@@ -1,6 +1,8 @@
 from machine import Pin, PWM, ADC
 from utime import sleep, ticks_ms, ticks_diff, time
 
+# Task 1: Blink a red LED at 1 Hz (500 ms on/off) only while a button is pressed. Use a 330 Ω resistor and a button.
+
 print('-------------')
 print('----Task1----')
 print('-------------')
