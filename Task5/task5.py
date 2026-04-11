@@ -12,10 +12,12 @@ print('-------------')
 pwm_led_pin = 15
 dimmable_led = nb.pwm_led(50, pwm_led_pin)
 
-dial_pin = 12
+dial_pin = 14
 dial_callbacks = [dimmable_led.change_duty]
-dial = nb.adc(50, dial_pin, dial_callbacks)
+dial = nb.adc(100, dial_pin, dial_callbacks)
 
 while True:
     dial.tick()
     dimmable_led.tick()
+
+    print('dial.val: ', dial.val)

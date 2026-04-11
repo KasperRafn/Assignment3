@@ -12,10 +12,10 @@ button = Pin(27, Pin.IN, Pin.PULL_DOWN)
 
 while True:
     print(button.value())
-    if button.value() == 1: # Button is pressed
+    if button.value() == 1:
         led.on()
-        sleep(0.5) # Keep the LED on for 0.5 seconds
+        sleep(0.5)
         led.off()
-        sleep(0.5) # Wait for 0.5 seconds before checking the button
-    else: # Button is not pressed
+        sleep(0.5)
+    else:
         led.off()

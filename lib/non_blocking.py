@@ -1,10 +1,6 @@
 from machine import Pin, PWM, ADC, I2C
 from utime import sleep, ticks_ms, ticks_diff, time
 
-print('-------------')
-print('----ready----')
-print('-------------')
-
 class tick_element():
     def __init__(self, freq):
         self.freq = freq
@@ -22,7 +18,7 @@ class pwm_led(tick_element):
     def __init__(self, freq, pin):
         super().__init__(freq)
 
-        self.led = PWM(Pin(pin), 1)
+        self.led = PWM(Pin(pin), 1000)  # High frequency for smooth brightness control
         self.duty = 0 # range 0 - 1023
 
         # Min max values for dial

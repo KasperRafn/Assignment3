@@ -6,17 +6,11 @@
 
 ## Pins
 
-| Component | Pin(s) | Type |
-|-----------|--------|------|
-| Orange LED | 12 | Digital Output |
-| Green LED | 15 | Digital Output |
-| Red LED | 33 | Digital Output | LED indicator | 1 |
-| Button | 27 | Digital Input | User input/control | 1 |
-| Temperature Sensor | 21, 22 | I2C/Digital | Temperature measurement | 1 |
-| Potentiometer | - | Analog Input (ADC) | Variable resistance input | 1 |
-
-## Test
-
-[Some Test]
-
-## Test
+| Component | Pin(s) |
+|-----------|--------|
+| Orange LED / Blue LED | 12 |
+| Green LED | 15 |
+| Red LED | 33 | Digital Output |
+| Button | 27 | Digital Input |
+| Temperature Sensor | 21, 22 |
+| Potentiometer | 14 |

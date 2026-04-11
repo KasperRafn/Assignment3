@@ -1,12 +1,7 @@
-from time import time
-
-from machine import Pin, ADC, PWM
-from utime import ticks_ms, ticks_diff
+from machine import Pin, ADC, PWM, I2C
+from utime import sleep, ticks_ms, ticks_diff, time
 
 import lib.non_blocking as nb
-
-import busio
-import adafruit_mcp9808
 
 # Task 3: Read temperature from the MCP9808 sensor. Light the green LED for normal/room temperature, yellow when it reaches a warmer threshold, and red when it gets hot. The thresholds should be set so you can trigger them by touching the sensor.
 
@@ -19,15 +14,28 @@ green_led = Pin(15, Pin.OUT)
 yellow_led = Pin(12, Pin.OUT)
 red_led = Pin(33, Pin.OUT)
 
-# SDA Pin = 21
+# I2C Setup
+
+i2c = I2C(0, scl=Pin(22), sda=Pin(21))
+
+address = 0x18  # 24 in hex
+temp_reg = 0x05
+
+def temp_c(data):
+    value = data[0] << 8 | data[1]
+    temp = (value & 0x0FFF) / 16.0
+    if value & 0x1000:
+        temp -= 256.0
+    return temp
 
 # Sensor
+
 def change_led_color(new_sensor_value):
-    if new_sensor_value < 25:
+    if new_sensor_value < 29:
         green_led.on()
         yellow_led.off()
         red_led.off()
-    elif 25 <= new_sensor_value < 30:
+    elif 29 <= new_sensor_value < 30:
         green_led.off()
         yellow_led.on()
         red_led.off()
@@ -36,30 +44,11 @@ def change_led_color(new_sensor_value):
         yellow_led.off()
         red_led.on()
 
-sensor_pin = 32
-temp_sensor_ = nb.adc(20, sensor_pin, [change_led_color])
-
-####################
-
-i2c = busio.I2C(board.SCL, board.SDA)
-sensor = adafruit_mcp9808.MCP9808(i2c)
-
 while True:
-    # Read temperature in Celsius
-    c = sensor.temperature
-    
-    # Convert to Fahrenheit
-    f = c * 9.0 / 5.0 + 32
+    data = i2c.readfrom_mem(address, temp_reg, 2)
+    temperature = temp_c(data)
+    print("Temp:", temperature)
 
-    # Print values
-    print(f"Temp: {c:.2f} C\t{f:.2f} F")
+    change_led_color(temperature)
 
-    # Wait 250 ms
-    time.sleep(0.25)
-
-    # Put sensor to sleep
-    sensor.shutdown = True
-    time.sleep(2)
-
-    # Wake sensor back up
-    sensor.shutdown = False
+    sleep(0.5)
