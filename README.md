@@ -2,9 +2,9 @@
 
 ## Instructions for running the different tasks
 
-[Instructions here]
+To run the different tasks simply change the file to be executed in main.py. So execfile("/Task1/task1.py") for task 1, execfile("/Task2/task2.py") for task 2 and so on.
 
-## Pins
+## Components
 
 | Component | Pin(s) |
 |-----------|--------|

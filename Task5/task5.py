@@ -1,23 +1,32 @@
-from machine import Pin, ADC, PWM
-from utime import ticks_ms, ticks_diff
-
-import lib.non_blocking as nb
 
 # Task 5: Control the brightness of two NeoPixel LEDs using a potentiometer. Read the analog voltage from the pot and map it to a brightness level (0–full brightness).
+
+from machine import Pin, PWM, ADC
+from utime import sleep
 
 print('-------------')
 print('----Task5----')
 print('-------------')
 
-pwm_led_pin = 15
-dimmable_led = nb.pwm_led(50, pwm_led_pin)
+# PWM LED Setup
+led = PWM(Pin(15), 1000)
+dial_range = [0.128, 3.122]
 
-dial_pin = 14
-dial_callbacks = [dimmable_led.change_duty]
-dial = nb.adc(100, dial_pin, dial_callbacks)
+def change_duty(val):
+    normalized_val = (val - dial_range[0]) / (dial_range[1] - dial_range[0])
 
+    if 0 <= normalized_val <= 1:
+        led.duty(int(normalized_val * 1023))
+
+# Dial Setup
+dial = ADC(Pin(14))
+dial.atten(ADC.ATTN_11DB)
+
+# Main loop
 while True:
-    dial.tick()
-    dimmable_led.tick()
+    val = dial.read_uv() * 10**(-6)
+    print('Dial value:', val)
 
-    print('dial.val: ', dial.val)
+    change_duty(val)
+
+    sleep(0.1)

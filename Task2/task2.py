@@ -1,44 +1,44 @@
+# Task 2: Cycle through three LEDs (green, yellow, red) each time a button is pressed. Start with green; each press advances to the next color (green→yellow→red→green…). A single press is counted only once, even if held.
+
 from machine import Pin
-import time
+from utime import sleep
 
 print('-------------')
 print('----Task2----')
 print('-------------')
 
-# LED pins
-green = Pin(15, Pin.OUT)
-yellow = Pin(12, Pin.OUT)
-red = Pin(33, Pin.OUT)
+# LEDs
+green_led = Pin(15, Pin.OUT)
+yellow_led = Pin(12, Pin.OUT)
+red_led = Pin(33, Pin.OUT)
 
-# Button pin
-button = Pin(27, Pin.IN, Pin.PULL_DOWN)
+leds = [green_led, yellow_led, red_led]
+current_led_index = 0
 
-# LED states list
-leds = [green, yellow, red]
-current_index = 0
-
-# Turn on initial LED (green)
 def update_leds(index):
     for i in range(3):
         leds[i].value(1 if i == index else 0)
 
-update_leds(current_index)
+update_leds(current_led_index)
 
-# For edge detection
+# Button
+button = Pin(27, Pin.IN, Pin.PULL_DOWN)
+
 last_button_state = 0
 
+# Main loop
 while True:
     current_button_state = button.value()
 
-    # Detect rising edge (button pressed)
+    # Detect if the button was pressed e.g. if button state changed
     if current_button_state == 1 and last_button_state == 0:
-        current_index = (current_index + 1) % 3
-        update_leds(current_index)
+        current_led_index = (current_led_index + 1) % 3
+        update_leds(current_led_index)
 
         print('button pressed')
 
         # debounce delay
-        time.sleep(0.2)
+        sleep(0.2)
 
     last_button_state = current_button_state
-    time.sleep(0.01)
+    sleep(0.01)

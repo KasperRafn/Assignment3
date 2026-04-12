@@ -1,8 +1,7 @@
-from machine import Pin, I2C
-from machine import Pin, ADC, PWM, I2C
-from utime import sleep, ticks_ms, ticks_diff, time
-
 #Task 4: Replace the three separate LEDs with a single RGB LED. Use it to show the same color changes (green → yellow → red) based on the temperature, using the RGB LED’s three channels.
+
+from machine import Pin, PWM, I2C
+from utime import sleep
 
 print('-------------')
 print('----Task4----')
@@ -21,8 +20,7 @@ def temp_c(data):
         temp -= 256.0
     return temp
 
-# Color changing
-
+# Color changing RGB LED Setup
 red   = PWM(Pin(33), freq=500)
 green = PWM(Pin(15), freq=500)
 blue  = PWM(Pin(12), freq=500)
@@ -36,6 +34,7 @@ def set_color(r, g, b):
 LOW_TEMP = 28
 HIGH_TEMP = 30
 
+# Main loop
 while True:
     data = i2c.readfrom_mem(address, temp_reg, 2)
     temperature = temp_c(data)
@@ -43,7 +42,7 @@ while True:
     
     if temperature < LOW_TEMP:
         # Green
-        set_color(255,0,255)
+        set_color(255, 0, 255)
 
     elif LOW_TEMP <= temperature < HIGH_TEMP:
         # Yellow
